@@ -1,6 +1,9 @@
 import pandas as pd
 from fastapi import Response, status, HTTPException, Depends, APIRouter , BackgroundTasks
-from ..import schemas
+from sqlalchemy.orm import Session
+from ..import schemas,models
+from ..database import get_db
+from sqlalchemy import desc , text
 
 
 router = APIRouter(
@@ -13,7 +16,7 @@ router = APIRouter(
 def fetchdata(condition: schemas.DataFetch):
     try:
         # print(condition.conditionName)
-        file_name = f"result_{condition.conditionName}.csv"
+        file_name = f"result/result_{condition.conditionName}.csv"
         print(file_name)
         data = pd.read_csv(file_name)
         result =  data.to_dict(orient='records')
@@ -21,4 +24,33 @@ def fetchdata(condition: schemas.DataFetch):
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    return {"message": "Data Fetched Successfully"}
+    
+
+@router.post("/api/fetchfrequency", status_code=status.HTTP_200_OK)
+def fetchfrequency(freq_details: schemas.frequencyFetchIn, db: Session = Depends(get_db),response_model=list[schemas.DataFetchout]):
+    print(f"------------------->{freq_details}")
+    try:
+        # Construct the query with a dynamic table name
+        query = text(f"""
+        SELECT * 
+        FROM public."{freq_details.tableName}"
+        WHERE nsecode = :nsecode
+        ORDER BY date DESC
+        LIMIT :count;
+        """)
+
+        # Execute the query and fetch data into a DataFrame
+        df = pd.read_sql_query(query, db.bind, params={"nsecode": freq_details.nsecode, "count": freq_details.count})
+        df['date'] = pd.to_datetime(df['date']).dt.strftime('%d-%m-%Y')
+        redefine = df.drop(['id','name','bsecode','volume','time','per_chg','igroup_name','create_at'], axis=1)
+       # Convert the DataFrame to a dictionary
+        print(redefine)
+        data = redefine.to_dict(orient="records")
+        
+        # Convert the DataFrame to a dictionary
+   
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+    return {"data": data}

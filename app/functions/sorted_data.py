@@ -42,12 +42,12 @@ def frequency(data, conditionName):
 
     filtered_data = data[data['date'].dt.strftime('%d-%m-%Y').isin(last_5_working_days_str)]
     
-    # Calculate frequency based on 'nsecode'
+    # Calculate frequency based on 'nsecode'to
     frequency = filtered_data['nsecode'].value_counts().reset_index()
     frequency.columns = ['nsecode', 'count']
     
     # Read and filter the additional CSV file
-    chart_can = pd.read_csv(conditionName + '.csv')
+    chart_can = pd.read_csv(f'mid/{conditionName}.csv')
     filtered_chart_can = chart_can[chart_can['nsecode'].isin(frequency['nsecode'])]
     
     # Merge the dataframes
@@ -76,7 +76,7 @@ def frequency(data, conditionName):
     print(result_list)
     
     # Save the result to a CSV file
-    result.to_csv(f'result_{conditionName}.csv', index=False)
+    result.to_csv(f'result/result_{conditionName}.csv', index=False)
     result_list = result.to_dict(orient='records')
     print(f"------------------{conditionName}---------------------------")
     print(result_list)

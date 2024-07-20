@@ -50,9 +50,11 @@ def scandata(condition, conditionName):
                 datafile = pd.merge(stock_list,  symbol_df[["nsecode", 'igroup_name']], on="nsecode", how='left')
                 datafile['igroup_name'] = datafile['igroup_name'].fillna('Others')
                 # print(datafile)
+              
                 new_data = datafile.drop(['sr','name','bsecode','volume','time'],axis=1)
                 print(new_data)
-                new_data.to_csv(f'{conditionName}.csv', index=False)
+                print(f"saving data to mid/{conditionName}.csv")
+                new_data.to_csv(f'mid/{conditionName}.csv', index=False)
                 dayStockSelector(datafile)
     
                 # nse_data()

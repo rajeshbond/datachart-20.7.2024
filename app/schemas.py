@@ -21,6 +21,15 @@ class DataFetchout(BaseModel):
     count : int
     frequency : int
 
+class frequencyFetchIn(BaseModel):
+    tableName: str
+    nsecode: str
+    count: int
+class frequencyFetchOut(BaseModel):
+    nsecode : str
+    close: float   
+    date : str
+    # time : str
     
 
 

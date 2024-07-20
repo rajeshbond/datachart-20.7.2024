@@ -95,11 +95,11 @@ class SwingData(Base):
     igroup_name = Column(String)
     create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
-class DaySymbol(Base):
-    __tablename__ = "DaySymbol"
-    id = id = Column(BigInteger, primary_key=True, index=True)
-    nsecode = Column(String,nullable=False)
-    create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+# class DaySymbol(Base):
+#     __tablename__ = "DaySymbol"
+#     id = id = Column(BigInteger, primary_key=True, index=True)
+#     nsecode = Column(String,nullable=False)
+#     create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 # class DayNSEData(Base):
 #     __tablename__ = "DayNSEData"
@@ -111,65 +111,65 @@ class DaySymbol(Base):
 
 
 
-class DayIndraday(Base):
-    __tablename__ = "DayIndraday"
-    id = Column(Integer, Sequence('DayIndraday_id_seq'), primary_key=True)
-    nsecode = Column(String, nullable=False)
-    per_chg = Column(Float, nullable=False)
-    close = Column(Float, nullable=False)
-    date = Column(String, nullable=False)
-    sector = Column(String, nullable=False)
-    count = Column(Integer, nullable=False)
-    frequency = Column(Integer, nullable=False)
-    create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+# class DayIndraday(Base):
+#     __tablename__ = "DayIndraday"
+#     id = Column(Integer, Sequence('DayIndraday_id_seq'), primary_key=True)
+#     nsecode = Column(String, nullable=False)
+#     per_chg = Column(Float, nullable=False)
+#     close = Column(Float, nullable=False)
+#     date = Column(String, nullable=False)
+#     sector = Column(String, nullable=False)
+#     count = Column(Integer, nullable=False)
+#     frequency = Column(Integer, nullable=False)
+#     create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
-class DayOverBrought(Base):
-    __tablename__ = "DayOverBrought"
-    id = Column(Integer, Sequence('DayOverBrought_id_seq'), primary_key=True)
-    nsecode = Column(String, nullable=False)
-    per_chg = Column(Float, nullable=False)
-    close = Column(Float, nullable=False)
-    date = Column(String, nullable=False)
-    sector = Column(String, nullable=False)
-    count = Column(Integer, nullable=False)
-    frequency = Column(Integer, nullable=False)
-    create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+# class DayOverBrought(Base):
+#     __tablename__ = "DayOverBrought"
+#     id = Column(Integer, Sequence('DayOverBrought_id_seq'), primary_key=True)
+#     nsecode = Column(String, nullable=False)
+#     per_chg = Column(Float, nullable=False)
+#     close = Column(Float, nullable=False)
+#     date = Column(String, nullable=False)
+#     sector = Column(String, nullable=False)
+#     count = Column(Integer, nullable=False)
+#     frequency = Column(Integer, nullable=False)
+#     create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
-class DayPostional(Base):
-    __tablename__ = "DayPostional"
-    id = Column(Integer, Sequence('DayPostional_id_seq'), primary_key=True)
-    nsecode = Column(String, nullable=False)
-    per_chg = Column(Float, nullable=False)
-    close = Column(Float, nullable=False)
-    date = Column(String, nullable=False)
-    sector = Column(String, nullable=False)
-    count = Column(Integer, nullable=False)
-    frequency = Column(Integer, nullable=False)
-    create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+# class DayPostional(Base):
+#     __tablename__ = "DayPostional"
+#     id = Column(Integer, Sequence('DayPostional_id_seq'), primary_key=True)
+#     nsecode = Column(String, nullable=False)
+#     per_chg = Column(Float, nullable=False)
+#     close = Column(Float, nullable=False)
+#     date = Column(String, nullable=False)
+#     sector = Column(String, nullable=False)
+#     count = Column(Integer, nullable=False)
+#     frequency = Column(Integer, nullable=False)
+#     create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
-class DayReversal(Base):
-    __tablename__ = "DayReversal"
-    id = Column(Integer, Sequence('DayReversal_id_seq'), primary_key=True)
-    nsecode = Column(String, nullable=False)
-    per_chg = Column(Float, nullable=False)
-    close = Column(Float, nullable=False)
-    date = Column(String, nullable=False)
-    sector = Column(String, nullable=False)
-    count = Column(Integer, nullable=False)
-    frequency = Column(Integer, nullable=False)
-    create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+# class DayReversal(Base):
+#     __tablename__ = "DayReversal"
+#     id = Column(Integer, Sequence('DayReversal_id_seq'), primary_key=True)
+#     nsecode = Column(String, nullable=False)
+#     per_chg = Column(Float, nullable=False)
+#     close = Column(Float, nullable=False)
+#     date = Column(String, nullable=False)
+#     sector = Column(String, nullable=False)
+#     count = Column(Integer, nullable=False)
+#     frequency = Column(Integer, nullable=False)
+#     create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
-class DaySwing(Base):
-    __tablename__ = "DaySwing"
-    id = Column(Integer, Sequence('DaySwing_id_seq'), primary_key=True)
-    nsecode = Column(String, nullable=False)
-    per_chg = Column(Float, nullable=False)
-    close = Column(Float, nullable=False)
-    date = Column(String, nullable=False)
-    sector = Column(String, nullable=False)
-    count = Column(Integer, nullable=False)
-    frequency = Column(Integer, nullable=False)
-    create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+# class DaySwing(Base):
+#     __tablename__ = "DaySwing"
+#     id = Column(Integer, Sequence('DaySwing_id_seq'), primary_key=True)
+#     nsecode = Column(String, nullable=False)
+#     per_chg = Column(Float, nullable=False)
+#     close = Column(Float, nullable=False)
+#     date = Column(String, nullable=False)
+#     sector = Column(String, nullable=False)
+#     count = Column(Integer, nullable=False)
+#     frequency = Column(Integer, nullable=False)
+#     create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 
 
