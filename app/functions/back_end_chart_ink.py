@@ -1,4 +1,4 @@
-import time
+import time, os
 import requests
 from fastapi import Response, status, HTTPException, Depends, APIRouter
 from bs4 import BeautifulSoup as bs
@@ -54,104 +54,170 @@ def scandata(condition, conditionName):
                 new_data = datafile.drop(['sr','name','bsecode','volume','time'],axis=1)
                 print(new_data)
                 print(f"saving data to mid/{conditionName}.csv")
+                directory = 'mid'
+                if not os.path.exists(directory):
+                    os.makedirs(directory)
                 new_data.to_csv(f'mid/{conditionName}.csv', index=False)
-                dayStockSelector(datafile)
-    
+                # dayStockSelector(datafile)
                 # nse_data()
                 return datafile
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
-def chartinkLogicBankend(condition, conditionName,db_name):
+def chartinkLogicBankend(condition, conditionName, db_name):
     try:
-        # today = str(datetime.datetime.now(pytz.timezone('Asia/Kolkata')).date())
+        today = str(datetime.datetime.now(pytz.timezone('Asia/Kolkata')).date())
         scandata(condition, conditionName)
+
         # Fetch a database session
         db = next(get_db())
+
+        # Define a mapping of db_name and conditionName to models
+        model_mapping = {
+            ("IntradayData", "Champions Intraday"): models.IntradayData,
+            ("OverBroughtData", "Champions Over Brought"): models.OverBroughtData,
+            ("PositionalData", "Champions Positional"): models.PositionalData,
+            ("ReversalData", "Champions Reversal Stocks"): models.ReversalData,
+            ("SwingData", "Champions Swing"): models.SwingData
+        }
+
+        # Get the appropriate model class
+        model_class = model_mapping.get((db_name, conditionName))
         
-        # For Indraday Condition --- start
-        if (db_name == "IntradayData" and conditionName == "Champions Intraday"):
-            intra_data = pd.read_sql(db.query(models.IntradayData).statement, db.bind)
-            if intra_data.empty:
-                print(f"{db_name} {conditionName}data not found in scan")
-                return
-            frequency(intra_data,conditionName)
-            
-                
-        # For OverBroughtData Condition --- start
-        elif (db_name == "OverBroughtData" and conditionName == "Champions Over Brought"):
-         
-       
-            over_brought_data = pd.read_sql(db.query(models.OverBroughtData).statement, db.bind)
-            if over_brought_data.empty:
-                print(f"{db_name} {conditionName}data not found in scan")
-                return
-            frequency(over_brought_data,conditionName)
-           
-        # For PositionalData Condition --- start  
-        elif (db_name == "PositionalData" and conditionName == "Champions Positional"):
-            positonal_data = pd.read_sql(db.query(models.PositionalData).statement, db.bind)
-            if positonal_data.empty:
-                print(f"{db_name} {conditionName}data not found in scan")
-                return
-            frequency(positonal_data,conditionName)
-            
-        elif (db_name == "ReversalData" and conditionName == "Champions Reversal Stocks"):  
-            reversal_data = pd.read_sql(db.query(models.ReversalData).statement, db.bind)
-            if reversal_data.empty:
-                print(f"{db_name} {conditionName}data not found in scan")
-                return
-            frequency(reversal_data,conditionName)
-            
-        elif (db_name == "SwingData" and conditionName == "Champions Swing"):
-            swing_data = pd.read_sql(db.query(models.SwingData).statement, db.bind)
-            if swing_data.empty:
-                print(f"{db_name} {conditionName}data not found in scan")
-                return
-            frequency(swing_data,conditionName)
-                
-                
-        else:
+        if not model_class:
+            print(f"No model mapping found for {db_name} and {conditionName}")
             return
 
+        scandataFunc_df = scandata(condition, conditionName)
+        selected_columns = ['nsecode', 'name', 'bsecode', 'per_chg', 'close', 'volume', 'date', 'time', 'igroup_name']
+        newScandataFunc = scandataFunc_df[selected_columns]
+
+        if newScandataFunc.empty:
+            print(f"{db_name} {conditionName} data not found in scan")
+            return
+
+        existing_data = pd.read_sql(db.query(model_class).statement, db.bind)
+
+        if not existing_data.empty:
+            frequency(existing_data,conditionName)
+            new_data = newScandataFunc[~newScandataFunc['nsecode'].isin(existing_data.loc[existing_data['date'] == today, 'nsecode'])]
+
+            if new_data.empty:
+                print(f"No new data found for {conditionName}")
+                return
+            else:
+                print(f"New data found for {conditionName}, adding to database {db_name}...")
+                new_entries = new_data.to_dict(orient='records')
+                try:
+                    # db.bulk_insert_mappings(model_class, new_entries)
+                    # db.commit()
+                    pass
+                except Exception as e:
+                    print(f"{conditionName} ---> error {e}")
+        else:
+            print(f"{db_name} {conditionName} data not found in database")
+            print(f"Entering the {conditionName} to database {db_name}...")
+            data_to_insert = newScandataFunc.to_dict(orient='records')
+            try:
+                db.bulk_insert_mappings(model_class, data_to_insert)
+                db.commit()
+            except Exception as e:
+                print(f"{conditionName} ---> error {e}")
+
     except Exception as e:
-        print(f"chartinkLogicBankend error: {e}")
+        print(f"Error in chartinkLogicBankend: {e}")
+
+
+
+# def chartinkLogicBankend(condition, conditionName,db_name):
+#     try:
+#         # today = str(datetime.datetime.now(pytz.timezone('Asia/Kolkata')).date())
+#         scandata(condition, conditionName)
+#         # Fetch a database session
+#         db = next(get_db())
+        
+        # frequency(intra_data,conditionName)
+        
+        # For Indraday Condition --- start
+        # Previous code ---------Starts
+        # if (db_name == "IntradayData" and conditionName == "Champions Intraday"):
+        #     intra_data = pd.read_sql(db.query(models.IntradayData).statement, db.bind)
+           
+            
+                
+        # # For OverBroughtData Condition --- start
+        # elif (db_name == "OverBroughtData" and conditionName == "Champions Over Brought"):
+         
+       
+        #     over_brought_data = pd.read_sql(db.query(models.OverBroughtData).statement, db.bind)
+        #     if over_brought_data.empty:
+        #         print(f"{db_name} {conditionName}data not found in scan")
+        #         return
+        #     frequency(over_brought_data,conditionName)
+           
+        # # For PositionalData Condition --- start  
+        # elif (db_name == "PositionalData" and conditionName == "Champions Positional"):
+        #     positonal_data = pd.read_sql(db.query(models.PositionalData).statement, db.bind)
+        #     if positonal_data.empty:
+        #         print(f"{db_name} {conditionName}data not found in scan")
+        #         return
+        #     frequency(positonal_data,conditionName)
+            
+        # elif (db_name == "ReversalData" and conditionName == "Champions Reversal Stocks"):  
+        #     reversal_data = pd.read_sql(db.query(models.ReversalData).statement, db.bind)
+        #     if reversal_data.empty:
+        #         print(f"{db_name} {conditionName}data not found in scan")
+        #         return
+        #     frequency(reversal_data,conditionName)
+            
+        # elif (db_name == "SwingData" and conditionName == "Champions Swing"):
+        #     swing_data = pd.read_sql(db.query(models.SwingData).statement, db.bind)
+        #     if swing_data.empty:
+        #         print(f"{db_name} {conditionName}data not found in scan")
+        #         return
+        #     frequency(swing_data,conditionName)
+                
+                
+        # else:
+        #     return
+        # Previous code ---------
+    # except Exception as e:
+    #     print(f"chartinkLogicBankend error: {e}")
 
 
     
-def dayStockSelector(scanData):
-    # print("-----------dayStockSelector------------")
-    # print(scanData['nsecode'])
-    db = next(get_db())
-    day_symbol = pd.read_sql(db.query(models.DaySymbol).statement, db.bind)
+# def dayStockSelector(scanData):
+#     # print("-----------dayStockSelector------------")
+#     # print(scanData['nsecode'])
+#     db = next(get_db())
+#     day_symbol = pd.read_sql(db.query(models.DaySymbol).statement, db.bind)
 
-    if not day_symbol.empty:
-        new_symbol_entry = scanData[~scanData['nsecode'].isin(day_symbol['nsecode'])]
+#     if not day_symbol.empty:
+#         new_symbol_entry = scanData[~scanData['nsecode'].isin(day_symbol['nsecode'])]
 
-        if new_symbol_entry.empty:
-            print("No new data found")
-            return
-        print("New data found")
-        print(new_symbol_entry)
-        new_symbol_entry = new_symbol_entry.to_dict(orient='records')
-        print("---------------New data found-------------\n")
-        try:
-            db.bulk_insert_mappings(models.DaySymbol, new_symbol_entry)
-            db.commit()
-            pass
-        except Exception as e:
-            print(f"dayStockSelector error in dataBase (e)")
-            raise HTTPException(status_code=500, detail=str(e))
-    else:
-        try:
-            new_symbol_entry = scanData
-            print("---------------First Entry -------------\n")
-            print(new_symbol_entry)
-            new_symbol_entry = scanData.to_dict(orient='records')
+#         if new_symbol_entry.empty:
+#             print("No new data found")
+#             return
+#         print("New data found")
+#         print(new_symbol_entry)
+#         new_symbol_entry = new_symbol_entry.to_dict(orient='records')
+#         print("---------------New data found-------------\n")
+#         try:
+#             db.bulk_insert_mappings(models.DaySymbol, new_symbol_entry)
+#             db.commit()
+#             pass
+#         except Exception as e:
+#             print(f"dayStockSelector error in dataBase (e)")
+#             raise HTTPException(status_code=500, detail=str(e))
+#     else:
+#         try:
+#             new_symbol_entry = scanData
+#             print("---------------First Entry -------------\n")
+#             print(new_symbol_entry)
+#             new_symbol_entry = scanData.to_dict(orient='records')
             
-            db.bulk_insert_mappings(models.DaySymbol, new_symbol_entry)
-            db.commit()
-        except Exception as e:
-            print(f"dayStockSelector error in dataBase (e)")
-            raise HTTPException(status_code=500, detail=str(e))
+#             db.bulk_insert_mappings(models.DaySymbol, new_symbol_entry)
+#             db.commit()
+#         except Exception as e:
+#             print(f"dayStockSelector error in dataBase (e)")
+#             raise HTTPException(status_code=500, detail=str(e))

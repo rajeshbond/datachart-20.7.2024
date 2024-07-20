@@ -1,10 +1,11 @@
 import time
+from fastapi import HTTPException,status
 import requests
 from bs4 import BeautifulSoup as bs
 import pandas as pd
 from .back_end_chart_ink import chartinkLogicBankend
-# from google_sheet import clean_up, update_cell, update_google_sheet
-# from nse_data import updatenseIndex,maketStatus,marketAdvacneDecline
+
+from .nse_data import market_status
 
 
 
@@ -18,13 +19,17 @@ def trasferDataToGoogleSheet():
     print("started")
     count = 0
     test = 1
+    
     while True:
         test = 0
-        # market = maketStatus()
-       
+        market = market_status()
+        # print(market)
         # updatenseIndex()
         # marketAdvacneDecline()
- 
+        if(market == 'Closed' or market == "Close"):
+            print(f"Market is {market}")
+            return HTTPException(status_code=status.HTTP_425_TOO_EARLY, detail="Market Closed")
+            
         try:
             title = "Champions Screener"
             sub_title = "powered by SnT Solution - 8080105062"

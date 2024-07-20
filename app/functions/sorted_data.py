@@ -1,9 +1,9 @@
 from fastapi import HTTPException
 import pandas as pd
-import datetime
+import datetime,os
 import pytz
 from ..database import get_db
-from ..models import DayIndraday, DayOverBrought, DayPostional, DayReversal, DaySwing
+# from ..models import DayIndraday, DayOverBrought, DayPostional, DayReversal, DaySwing
 from sqlalchemy import text, column
 from sqlalchemy.sql import select
 from sqlalchemy import text
@@ -76,6 +76,9 @@ def frequency(data, conditionName):
     print(result_list)
     
     # Save the result to a CSV file
+    directory = 'result'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
     result.to_csv(f'result/result_{conditionName}.csv', index=False)
     result_list = result.to_dict(orient='records')
     print(f"------------------{conditionName}---------------------------")
