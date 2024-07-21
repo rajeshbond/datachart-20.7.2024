@@ -5,7 +5,7 @@ from sqlalchemy.sql.sqltypes import TIMESTAMP , Date , DateTime # added
 from sqlalchemy.orm import relationship # added 
 from sqlalchemy.sql.expression import text  #added 
 from .database import Base #added
-from msilib import sequence #added
+# from msilib import sequence #added
 
 from sqlalchemy import Column, Integer, String, Float
 from app.database import Base
