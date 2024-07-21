@@ -3,6 +3,7 @@ from fastapi import Response, status, HTTPException, Depends, APIRouter , Backgr
 from sqlalchemy.orm import Session
 from ..import schemas,models
 from ..database import get_db
+from typing import List
 from sqlalchemy import desc , text
 
 
@@ -12,7 +13,7 @@ router = APIRouter(
 )
 
 
-@router.post("/api/fetchdata", status_code=status.HTTP_200_OK,response_model=list[schemas.DataFetchout])
+@router.post("/api/fetchdata", status_code=status.HTTP_200_OK,response_model=List[schemas.DataFetchout])
 def fetchdata(condition: schemas.DataFetch):
     try:
         # print(condition.conditionName)
