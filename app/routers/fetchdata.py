@@ -27,8 +27,8 @@ def fetchdata(condition: schemas.DataFetch):
         raise HTTPException(status_code=500, detail=str(e))
     
 
-@router.post("/api/fetchfrequency", status_code=status.HTTP_200_OK)
-def fetchfrequency(freq_details: schemas.frequencyFetchIn, db: Session = Depends(get_db),response_model=list[schemas.DataFetchout]):
+@router.post("/api/fetchfrequency", status_code=status.HTTP_200_OK,response_model=List[schemas.DataFetchout])
+def fetchfrequency(freq_details: schemas.frequencyFetchIn, db: Session = Depends(get_db)):
     print(f"------------------->{freq_details}")
     try:
         # Construct the query with a dynamic table name
