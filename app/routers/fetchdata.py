@@ -18,7 +18,7 @@ def fetchdata(condition: schemas.DataFetch):
     try:
         # print(condition.conditionName)
         file_name = f"result/result_{condition.conditionName}.csv"
-        print(file_name)
+        # print(file_name)
         data = pd.read_csv(file_name)
         result =  data.to_dict(orient='records')
         # print(result)
@@ -29,7 +29,7 @@ def fetchdata(condition: schemas.DataFetch):
 
 @router.post("/api/fetchfrequency", status_code=status.HTTP_200_OK)
 def fetchfrequency(freq_details: schemas.frequencyFetchIn, db: Session = Depends(get_db)):
-    print(f"------------------->{freq_details}")
+    # print(f"------------------->{freq_details}")
     try:
         # Construct the query with a dynamic table name
         query = text(f"""
@@ -45,7 +45,7 @@ def fetchfrequency(freq_details: schemas.frequencyFetchIn, db: Session = Depends
         df['date'] = pd.to_datetime(df['date']).dt.strftime('%d-%m-%Y')
         redefine = df.drop(['id','name','bsecode','volume','time','per_chg','igroup_name','create_at'], axis=1)
        # Convert the DataFrame to a dictionary
-        print(redefine)
+        # print(redefine)
         data = redefine.to_dict(orient="records")
         
         # Convert the DataFrame to a dictionary
