@@ -2,7 +2,7 @@
     const baseurl = 'https://champions.compoundingfunda.com/';
     const dymanicurl = 'fetchdata/api/fetchdata';
     const url = baseurl + dymanicurl;
-    console.log(url);
+    // console.log(url);
     // url = 'http://45.129.87.41:8025/fetchdata/api/fetchdata';
     let count = 0;
     async function fetchData(conditionName) {
@@ -153,7 +153,7 @@
         throw new Error('Failed to fetch data');
       }
       const data = await response.json();
-      console.log('Success:', data);
+      // console.log('Success:', data);
       return data;
     }
 
@@ -293,7 +293,7 @@
       await fetchDataWithDelay('Champions Swing', 'swing-table', 100, 'SwingData', 'SWING');
       await fetchDataWithDelay('Champions Reversal Stocks', 'reversal-table', 100, 'ReversalData', 'REVERSAL');
       count ++;
-      console.log(`------Count: ${count}-----`);
+      // console.log(`------Count: ${count}-----`);
     }
 
     init();
