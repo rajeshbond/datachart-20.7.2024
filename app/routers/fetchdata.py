@@ -27,7 +27,7 @@ def fetchdata(condition: schemas.DataFetch):
         raise HTTPException(status_code=500, detail=str(e))
     
 
-@router.post("/api/fetchfrequency", status_code=status.HTTP_200_OK,response_model=List[schemas.DataFetchout])
+@router.post("/api/fetchfrequency", status_code=status.HTTP_200_OK)
 def fetchfrequency(freq_details: schemas.frequencyFetchIn, db: Session = Depends(get_db)):
     print(f"------------------->{freq_details}")
     try:
