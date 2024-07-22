@@ -109,8 +109,8 @@ def chartinkLogicBankend(condition, conditionName, db_name):
                 print(f"New data found for {conditionName}, adding to database {db_name}...")
                 new_entries = new_data.to_dict(orient='records')
                 try:
-                    # db.bulk_insert_mappings(model_class, new_entries)
-                    # db.commit()
+                    db.bulk_insert_mappings(model_class, new_entries)
+                    db.commit()
                     pass
                 except Exception as e:
                     print(f"{conditionName} ---> error {e}")

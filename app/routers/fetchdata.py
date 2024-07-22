@@ -5,6 +5,7 @@ from ..import schemas,models
 from ..database import get_db
 from typing import List
 from sqlalchemy import desc , text
+from ..functions.nse_data import market_status
 
 
 router = APIRouter(
@@ -19,6 +20,9 @@ def fetchdata(condition: schemas.DataFetch):
         # print(condition.conditionName)
         file_name = f"result/result_{condition.conditionName}.csv"
         # print(file_name)
+        status = market_status()
+        # if(status == 'Closed' or status == "Close"):
+        #     return {"message": "Market Closed"}
         data = pd.read_csv(file_name)
         result =  data.to_dict(orient='records')
         # print(result)

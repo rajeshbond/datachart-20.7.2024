@@ -1,9 +1,9 @@
     // const baseurl = 'http://127.0.0.1:8000/';
     const baseurl = 'https://champions.compoundingfunda.com/';
     const dymanicurl = 'fetchdata/api/fetchdata';
-    const url = baseurl + dymanicurl;
+    // const url = baseurl + dymanicurl;
     // console.log(url);
-    // url = 'http://45.129.87.41:8025/fetchdata/api/fetchdata';
+    // url = 'http://127.0.0.1:8000/fetchdata/api/fetchdata';
     let count = 0;
     async function fetchData(conditionName) {
       try {
