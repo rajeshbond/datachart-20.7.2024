@@ -34,8 +34,8 @@ def scandata(condition, conditionName):
                 data = responseData_scan1.json()
                 stock = data['data']
                 stock_list = pd.DataFrame(stock)
-                # print(f"-------------------{conditionName}----------------------------")
-                # print(stock_list)
+                print(f"-------------------{conditionName}----------------------------")
+                print(stock_list)
                 if stock_list.empty:
                     time.sleep(10)
                     print("no data")
