@@ -32,10 +32,10 @@ def scandata(condition, conditionName):
             responseData_scan1 = s.post(url=URL, headers=header, data=condition, timeout=10000)
             if responseData_scan1.content:
                 data = responseData_scan1.json()
-                # stock = data['data']
-                # stock_list = pd.DataFrame(stock)
-                print(f"-------------------{conditionName}----------------------------")
-                print(stock_list)
+                stock = data['data']
+                stock_list = pd.DataFrame(stock)
+                # print(f"-------------------{conditionName}----------------------------")
+                # print(stock_list)
                 if stock_list.empty:
                     time.sleep(10)
                     print("no data")
