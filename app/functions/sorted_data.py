@@ -3,11 +3,12 @@ import pandas as pd
 import datetime,os
 import pytz
 from ..database import get_db
-# from ..models import DayIndraday, DayOverBrought, DayPostional, DayReversal, DaySwing
 from sqlalchemy import text, column
 from sqlalchemy.sql import select
 from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker
+from .comp import compare_csv_files
+
 
 def get_last_n_working_days(n, start_date):
     # Convert start_date from string to datetime
@@ -36,7 +37,7 @@ def frequency(data, conditionName):
     print(f"Today's date: {today}")
     
     # Get last 5 working days
-    last_5_working_days = get_last_n_working_days(5, today)
+    last_5_working_days = get_last_n_working_days(4, today)
     last_5_working_days_str = [day.strftime('%d-%m-%Y') for day in last_5_working_days]
     last_5_working_days_str.append(today.strftime('%d-%m-%Y'))
 
@@ -73,51 +74,29 @@ def frequency(data, conditionName):
     selected_columns = ['nsecode', 'per_chg','close','date', 'sector','count','frequency']
 
     result_list = result[selected_columns]
-    print(result_list)
-    
+    # print(result_list)
+    file_name = f'result/result_{conditionName}.csv'
+    if os.path.exists(file_name):
+        old_data = pd.read_csv(file_name)
+    else:
+        old_data = pd.DataFrame(columns=selected_columns)
+
+    # old_data = pd.read_csv(f'result/result_{conditionName}.csv')
+    old_data = old_data.drop(columns=['date'])
+    new_data_with_date = result_list.drop(columns=['date'])
+    # print("----------------old data -----------------")
+    # print(old_data)
+    comp_result = compare_csv_files(old_data , new_data_with_date)
+    print(f"********* Comparison sorted result --> {comp_result}<--****************")
     # Save the result to a CSV file
     directory = 'result'
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    result.to_csv(f'result/result_{conditionName}.csv', index=False)
-    result_list = result.to_dict(orient='records')
-    print(f"------------------{conditionName}---------------------------")
-    print(result_list)
-    return
+    if comp_result != True:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        result.to_csv(f'result/result_{conditionName}.csv', index=False)
+        result_list = result.to_dict(orient='records')
+        print(f"New data record result/result_{conditionName}.csv")
+    # print(f"------------------{conditionName}---------------------------")
     # print(result_list)
-    # if not result_list.empty:
-    #     if conditionName == "Champions Intraday":
-    #       db.query(DayIndraday).delete()
-    #       db.commit()
-    #       db.bulk_insert_mappings(DayIndraday, result_list.to_dict(orient='records'))
-    #       db.commit()
-    #       return
-    #     elif conditionName == "Champions Over Brought":
-    #       db.query(DayOverBrought).delete()
-    #       db.commit()
-    #       db.bulk_insert_mappings(DayOverBrought, result_list.to_dict(orient='records'))
-    #       db.commit()
-    #       return
-    #     elif conditionName == "Champions Postional":
-    #       db.query(DayPostional).delete()
-    #       db.commit()
-    #       db.bulk_insert_mappings(DayPostional, result_list.to_dict(orient='records'))
-    #       db.commit()
-    #       return
-    #     elif conditionName == "Champions Reversal":
-    #       db.query(DayReversal).delete()
-    #       db.commit()
-    #       db.bulk_insert_mappings(DayReversal, result_list.to_dict(orient='records'))
-    #       db.commit()
-    #       return
-    #     elif conditionName == "Champions Swing":
-    #       db.query(DaySwing).delete()
-    #       db.commit()
-    #       db.bulk_insert_mappings(DaySwing, result_list.to_dict(orient='records'))
-    #       db.commit()
-    #       return
+    return
     
-    #  else:
-    #      print(f"{conditionName}data not found in scan")
-    #      return
-

@@ -12,6 +12,7 @@ from .. import models
 from sqlalchemy import text, column
 from sqlalchemy.sql import select
 from .sorted_data import frequency
+from .comp import compare_csv_files
 
 # from fetch_data import nse_data
 
@@ -23,7 +24,7 @@ def scandata(condition, conditionName):
     try:
         db = next(get_db())
         symbol_df = pd.read_sql(db.query(models.Symbol).statement, db.bind)
-        
+        directory = 'mid'
         with requests.session() as s:
             rawData = s.get(URL)
             soup = bs(rawData.content, "lxml")
@@ -34,12 +35,17 @@ def scandata(condition, conditionName):
                 data = responseData_scan1.json()
                 stock = data['data']
                 stock_list = pd.DataFrame(stock)
-                # print(f"-------------------{conditionName}----------------------------")
-                # print(stock_list)
+                print(f"-------------------{conditionName}----------------------------")
+                print(stock_list)
                 if stock_list.empty:
-                    time.sleep(10)
+                    time.sleep(2)
+                    df_empty = pd.DataFrame(columns=['nsecode', 'per_chg', 'close','date','igroup_name'])
+                    if not os.path.exists(directory):
+                        os.makedirs(directory)
                     print("no data")
-                    return
+                    df_empty.to_csv(f'mid/{conditionName}.csv', index=False)
+                    return pd.DataFrame(columns=['nsecode', 'name', 'bsecode', 'per_chg', 'close', 'volume', 'date', 'time', 'igroup_name'])
+
                 today = str(datetime.datetime.now(pytz.timezone('Asia/Kolkata')).date())
                 stock_list['date'] = today
                 now = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))  
@@ -52,27 +58,40 @@ def scandata(condition, conditionName):
                 # print(datafile)
               
                 new_data = datafile.drop(['sr','name','bsecode','volume','time'],axis=1)
-                print(new_data)
-                print(f"saving data to mid/{conditionName}.csv")
-                directory = 'mid'
-                if not os.path.exists(directory):
-                    os.makedirs(directory)
-                new_data.to_csv(f'mid/{conditionName}.csv', index=False)
-                # dayStockSelector(datafile)
-                # nse_data()
-                return datafile
+                # print(new_data)
+                file_name = f'mid/{conditionName}.csv'    
+                if os.path.exists(file_name):
+                    old_data = pd.read_csv(f'mid/{conditionName}.csv')
+                else:
+                    old_data = pd.DataFrame(columns=['nsecode', 'name', 'bsecode', 'per_chg', 'close', 'volume', 'date', 'time', 'igroup_name'])
+                    print(old_data)
+                old_data = old_data.drop(columns=['date'])
+                new_data_with_date = new_data.drop(columns=['date'])
+                comp_result = compare_csv_files(old_data , new_data_with_date)
+                print(f"------- Comparison result for {conditionName} --> {comp_result}<--888888888888")
+                
+                # directory = 'mid'
+                if comp_result:
+                    # print(f"Data already exists in mid/{conditionName}.csv")
+                    # print("no data")
+                    return pd.DataFrame(columns=['nsecode', 'name', 'bsecode', 'per_chg', 'close', 'volume', 'date', 'time', 'igroup_name'])
+                else:
+                    if not os.path.exists(directory):
+                        os.makedirs(directory)
+                    print(f"saving data to mid/{conditionName}.csv")
+                    new_data.to_csv(f'mid/{conditionName}.csv', index=False)
+                    # dayStockSelector(datafile)
+                    # nse_data()
+                    return datafile
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
+    return pd.DataFrame(columns=['nsecode', 'name', 'bsecode', 'per_chg', 'close', 'volume', 'date', 'time', 'igroup_name'])
+    
 def chartinkLogicBankend(condition, conditionName, db_name):
     try:
         today = str(datetime.datetime.now(pytz.timezone('Asia/Kolkata')).date())
-        scandata(condition, conditionName)
-
-        # Fetch a database session
         db = next(get_db())
 
-        # Define a mapping of db_name and conditionName to models
         model_mapping = {
             ("IntradayData", "Champions Intraday"): models.IntradayData,
             ("OverBroughtData", "Champions Over Brought"): models.OverBroughtData,
@@ -81,7 +100,6 @@ def chartinkLogicBankend(condition, conditionName, db_name):
             ("SwingData", "Champions Swing"): models.SwingData
         }
 
-        # Get the appropriate model class
         model_class = model_mapping.get((db_name, conditionName))
         
         if not model_class:
@@ -89,21 +107,23 @@ def chartinkLogicBankend(condition, conditionName, db_name):
             return
 
         scandataFunc_df = scandata(condition, conditionName)
-        selected_columns = ['nsecode', 'name', 'bsecode', 'per_chg', 'close', 'volume', 'date', 'time', 'igroup_name']
-        newScandataFunc = scandataFunc_df[selected_columns]
 
-        if newScandataFunc.empty:
+        if scandataFunc_df.empty:
             print(f"{db_name} {conditionName} data not found in scan")
             return
+
+        # print(f"Dataframe columns from scandata: {scandataFunc_df.columns}")
+        selected_columns = ['nsecode', 'name', 'bsecode', 'per_chg', 'close', 'volume', 'date', 'time', 'igroup_name']
+        newScandataFunc = scandataFunc_df[selected_columns]
 
         existing_data = pd.read_sql(db.query(model_class).statement, db.bind)
 
         if not existing_data.empty:
-            frequency(existing_data,conditionName)
+            frequency(existing_data, conditionName)
             new_data = newScandataFunc[~newScandataFunc['nsecode'].isin(existing_data.loc[existing_data['date'] == today, 'nsecode'])]
 
             if new_data.empty:
-                print(f"No new data found for {conditionName}")
+                # print(f"No new data found for {conditionName}")
                 return
             else:
                 print(f"New data found for {conditionName}, adding to database {db_name}...")
@@ -111,7 +131,6 @@ def chartinkLogicBankend(condition, conditionName, db_name):
                 try:
                     db.bulk_insert_mappings(model_class, new_entries)
                     db.commit()
-                    pass
                 except Exception as e:
                     print(f"{conditionName} ---> error {e}")
         else:
@@ -126,6 +145,7 @@ def chartinkLogicBankend(condition, conditionName, db_name):
 
     except Exception as e:
         print(f"Error in chartinkLogicBankend: {e}")
+
 
 
 

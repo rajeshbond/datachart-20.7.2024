@@ -150,7 +150,7 @@ def trasferDataToGoogleSheet():
         # else:
         count +=1
         print(f"Market is {count}")
-        time.sleep(20) # 300 seconds = 5 minutes
+        time.sleep(45) # 300 seconds = 5 minutes
     # Sleep for 5 minutes``
         
     # time.sleep(120) # 300 seconds = 5 minutes
