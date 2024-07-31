@@ -9,6 +9,7 @@ from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker
 from .comp import compare_csv_files
 
+FREQUENCY_DAY = 4 # 5 days FREQUENCY 
 
 def get_last_n_working_days(n, start_date):
     # Convert start_date from string to datetime
@@ -37,7 +38,7 @@ def frequency(data, conditionName):
     print(f"Today's date: {today}")
     
     # Get last 5 working days
-    last_5_working_days = get_last_n_working_days(4, today)
+    last_5_working_days = get_last_n_working_days(FREQUENCY_DAY, today)
     last_5_working_days_str = [day.strftime('%d-%m-%Y') for day in last_5_working_days]
     last_5_working_days_str.append(today.strftime('%d-%m-%Y'))
 
@@ -84,8 +85,10 @@ def frequency(data, conditionName):
     # old_data = pd.read_csv(f'result/result_{conditionName}.csv')
     old_data = old_data.drop(columns=['date'])
     new_data_with_date = result_list.drop(columns=['date'])
-    # print("----------------old data -----------------")
-    # print(old_data)
+    print("----------------old data -----------------")
+    print(old_data)
+    print("----------------new data -----------------")
+    print(new_data_with_date)
     comp_result = compare_csv_files(old_data , new_data_with_date)
     print(f"********* Comparison sorted result --> {comp_result}<--****************")
     # Save the result to a CSV file

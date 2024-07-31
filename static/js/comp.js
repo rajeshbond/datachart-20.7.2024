@@ -1,5 +1,5 @@
-// const baseurl = 'http://127.0.0.1:8000/';
-const baseurl = 'https://champions.compoundingfunda.com/';
+const baseurl = 'http://127.0.0.1:8000/';
+// const baseurl = 'https://champions.compoundingfunda.com/';
 const dymanicurl = 'fetchdata/api/fetchdata';
 const url = baseurl + dymanicurl;
 console.log(url);
@@ -196,7 +196,7 @@ async function showPopup(company, tableName, sector, modelName) {
           <p>Sector: ${sector}</p>
           <p>Price: ${company.close}</p>
           <p>Percentage Change: ${company.per_chg}%</p>
-          <p>Appearance in Last 5 days: ${company.count} times</p>
+          <p>Appearance in Last 30 days: ${company.count} times</p>
           <canvas id="close-chart" width="400" height="200"></canvas>
           ${listTableHtml}
         `;

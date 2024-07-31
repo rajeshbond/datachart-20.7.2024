@@ -1,5 +1,5 @@
  
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 from . import models
 from .database import engine
 from .routers import symbols, stock_price,screener,fetchdata
@@ -37,8 +37,15 @@ app.include_router(fetchdata.router)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
+def add_cache_control_headers(response: Response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 @app.get("/",response_class=HTMLResponse)
 def root(request: Request):
-    return templates.TemplateResponse("index.html",{"request": request})
+    response = templates.TemplateResponse("notfound.html",{"request": request})
+    response = add_cache_control_headers(response)
+    return response
 
