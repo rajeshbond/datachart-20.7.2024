@@ -35,14 +35,14 @@ def scandata(condition, conditionName):
                 data = responseData_scan1.json()
                 stock = data['data']
                 stock_list = pd.DataFrame(stock)
-                print(f"-------------------{conditionName}----------------------------")
-                print(stock_list)
+                # print(f"-------------------{conditionName}----------------------------")
+                # print(stock_list)
                 if stock_list.empty:
                     time.sleep(2)
                     df_empty = pd.DataFrame(columns=['nsecode', 'per_chg', 'close','date','igroup_name'])
                     if not os.path.exists(directory):
                         os.makedirs(directory)
-                    print("no data")
+                    # print("no data")
                     df_empty.to_csv(f'mid/{conditionName}.csv', index=False)
                     return pd.DataFrame(columns=['nsecode', 'name', 'bsecode', 'per_chg', 'close', 'volume', 'date', 'time', 'igroup_name'])
 
@@ -64,11 +64,11 @@ def scandata(condition, conditionName):
                     old_data = pd.read_csv(f'mid/{conditionName}.csv')
                 else:
                     old_data = pd.DataFrame(columns=['nsecode', 'name', 'bsecode', 'per_chg', 'close', 'volume', 'date', 'time', 'igroup_name'])
-                    print(old_data)
+                    # print(old_data)
                 old_data = old_data.drop(columns=['date'])
                 new_data_with_date = new_data.drop(columns=['date'])
                 comp_result = compare_csv_files(old_data , new_data_with_date)
-                print(f"------- Comparison result for {conditionName} --> {comp_result}<--888888888888")
+                # print(f"------- Comparison result for {conditionName} --> {comp_result}<--888888888888")
                 
                 # directory = 'mid'
                 if comp_result:
@@ -78,7 +78,7 @@ def scandata(condition, conditionName):
                 else:
                     if not os.path.exists(directory):
                         os.makedirs(directory)
-                    print(f"saving data to mid/{conditionName}.csv")
+                    # print(f"saving data to mid/{conditionName}.csv")
                     new_data.to_csv(f'mid/{conditionName}.csv', index=False)
                     # dayStockSelector(datafile)
                     # nse_data()
@@ -103,7 +103,7 @@ def chartinkLogicBankend(condition, conditionName, db_name):
         model_class = model_mapping.get((db_name, conditionName))
         
         if not model_class:
-            print(f"No model mapping found for {db_name} and {conditionName}")
+            # print(f"No model mapping found for {db_name} and {conditionName}")
             return
 
         scandataFunc_df = scandata(condition, conditionName)
@@ -116,8 +116,8 @@ def chartinkLogicBankend(condition, conditionName, db_name):
 
         existing_data = pd.read_sql(db.query(model_class).statement, db.bind)
         if scandataFunc_df.empty:
-            # frequency(existing_data, conditionName)
-            print(f"{db_name} {conditionName} data not found in scan")
+            frequency(existing_data, conditionName)
+            # print(f"{db_name} {conditionName} data not found in scan")
             return
         
         if not existing_data.empty:
@@ -128,7 +128,7 @@ def chartinkLogicBankend(condition, conditionName, db_name):
                 # print(f"No new data found for {conditionName}")
                 return
             else:
-                print(f"New data found for {conditionName}, adding to database {db_name}...")
+                # print(f"New data found for {conditionName}, adding to database {db_name}...")
                 new_entries = new_data.to_dict(orient='records')
                 try:
                     db.bulk_insert_mappings(model_class, new_entries)
@@ -136,8 +136,8 @@ def chartinkLogicBankend(condition, conditionName, db_name):
                 except Exception as e:
                     print(f"{conditionName} ---> error {e}")
         else:
-            print(f"{db_name} {conditionName} data not found in database")
-            print(f"Entering the {conditionName} to database {db_name}...")
+            # print(f"{db_name} {conditionName} data not found in database")
+            # print(f"Entering the {conditionName} to database {db_name}...")
             data_to_insert = newScandataFunc.to_dict(orient='records')
             try:
                 db.bulk_insert_mappings(model_class, data_to_insert)

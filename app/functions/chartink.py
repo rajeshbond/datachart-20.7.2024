@@ -16,7 +16,7 @@ def trasferDataToGoogleSheet():
     URL = 'https://chartink.com/widget/process'
 
     # Initialize prev_data as None before the loop
-    print("started")
+    # print("started")
     count = 0
     test = 1
     
@@ -27,7 +27,7 @@ def trasferDataToGoogleSheet():
         # updatenseIndex()
         # marketAdvacneDecline()
         if(market == 'Closed' or market == "Close"):
-            print(f"Market is {market}")
+            # print(f"Market is {market}")
             return HTTPException(status_code=status.HTTP_425_TOO_EARLY, detail="Market Closed")
             
         try:
@@ -40,7 +40,8 @@ def trasferDataToGoogleSheet():
             conditionNameLocation = "A4"
             db_name = "IntradayData"
             # Put condition here
-            CONDITION1 = {"scan_clause": "( {cash} ( ( {57960} ( ( {cash} ( latest cci( 20 ) >= -100 and weekly cci( 20 ) >= -150 and latest rsi( 14 ) > 30 and weekly rsi( 14 ) >= 45 and monthly rsi( 14 ) >= 50 and market cap > 250 and latest obv >= [0] 4 hour obv and latest macd line( 13 , 8 , 5 ) >= [0] 5 minute macd line( 13 , 8 , 5 ) and weekly obv >= 1 week ago obv and latest avg true range( 14 ) >= 1 day ago avg true range( 14 ) and weekly avg true range( 14 ) >= 1 week ago avg true range( 14 ) and latest rsi( 14 ) >= 1 day ago rsi( 14 ) ) ) ) ) ) )"}
+            CONDITION1 = {"scan_clause": "( {cash} ( ( {57960} ( ( {cash} ( latest cci( 20 ) >= -100 and weekly cci( 20 ) >= -150 and latest rsi( 14 ) > 30 and weekly rsi( 14 ) >= 45 and monthly rsi( 14 ) >= 50 and market cap > 250 and latest obv >= [0] 4 hour obv and latest macd line( 13 , 8 , 5 ) >= [0] 15 minute macd line( 13 , 8 , 5 ) and weekly obv >= 1 week ago obv and latest avg true range( 14 ) >= 1 day ago avg true range( 14 ) and weekly avg true range( 14 ) >= 1 week ago avg true range( 14 ) and latest rsi( 14 ) >= 1 day ago rsi( 14 ) ) ) ) ) ) )"}
+            # CONDITION1 = {"scan_clause": "( {cash} ( ( {57960} ( ( {cash} ( latest cci( 20 ) >= -100 and weekly cci( 20 ) >= -150 and latest rsi( 14 ) > 30 and weekly rsi( 14 ) >= 45 and monthly rsi( 14 ) >= 50 and market cap > 250 and latest obv >= [0] 4 hour obv and latest macd line( 13 , 8 , 5 ) >= [0] 5 minute macd line( 13 , 8 , 5 ) and weekly obv >= 1 week ago obv and latest avg true range( 14 ) >= 1 day ago avg true range( 14 ) and weekly avg true range( 14 ) >= 1 week ago avg true range( 14 ) and latest rsi( 14 ) >= 1 day ago rsi( 14 ) ) ) ) ) ) )"}
             # 
             row_to_start ='A3'
             row_to_clean = 'A3:D'
@@ -87,7 +88,7 @@ def trasferDataToGoogleSheet():
             row_to_clean = "P3:S"
             conditionNameLocation = "M4"
             # chartinkLogicBankend(condition=CONDITION4,row_to_start=row_to_start,row_to_clean= row_to_clean,sheetname='Hello World',conditionName=conditionName,conditionNameLocation=conditionNameLocation)
-            print(conditionName)
+            # print(conditionName)
             chartinkLogicBankend(condition=CONDITION4, conditionName=conditionName,db_name=db_name)
         except Exception as e:
             print(e) 
@@ -97,8 +98,9 @@ def trasferDataToGoogleSheet():
             
             db_name = "OverBroughtData"
             conditionName = "Champions Over Brought"
-            CONDITION5 = {"scan_clause": "( {33489} ( latest cci( 20 ) <= 1 day ago cci( 20 ) and latest obv < 1 day ago obv and latest macd line( 26 , 12 , 9 ) < 1 day ago macd line( 26 , 12 , 9 ) and weekly obv < 1 week ago obv and monthly obv < 1 month ago obv and weekly cci( 20 ) < 1 week ago cci( 20 ) and monthly cci( 20 ) < 1 month ago cci( 20 ) and [0] 30 minute close < 1 day ago close ) )"}
-            # CONDITION5 = {"scan_clause": "( {33489} ( latest cci( 20 ) < 1 day ago cci( 20 ) and latest obv < 1 day ago obv and latest macd line( 26 , 12 , 9 ) < 1 day ago macd line( 26 , 12 , 9 ) and weekly obv < 1 week ago obv and monthly obv < 1 month ago obv and weekly cci( 20 ) < 1 week ago cci( 20 ) and monthly cci( 20 ) < 1 month ago cci( 20 ) and [0] 30 minute close < 1 day ago high and latest open < 1 day ago high and latest close >= 750 ) )"}
+            CONDITION5 = {"scan_clause": "( {33489} ( latest cci( 20 ) <= 1 day ago cci( 20 ) and latest obv < 1 day ago obv and latest macd line( 26 , 12 , 9 ) < 1 day ago macd line( 26 , 12 , 9 ) and weekly obv < 1 week ago obv and monthly obv < 1 month ago obv and weekly cci( 20 ) < 1 week ago cci( 20 ) and monthly cci( 20 ) < 1 month ago cci( 20 ) and [0] 15 minute close < 1 day ago close ) )"}
+            # {"scan_clause": "( {33489} ( latest cci( 20 ) <= 1 day ago cci( 20 ) and latest obv < 1 day ago obv and latest macd line( 26 , 12 , 9 ) < 1 day ago macd line( 26 , 12 , 9 ) and weekly obv < 1 week ago obv and monthly obv < 1 month ago obv and weekly cci( 20 ) < 1 week ago cci( 20 ) and monthly cci( 20 ) < 1 month ago cci( 20 ) and [0] 30 minute close < 1 day ago close ) )"}
+           
           
             row_to_start ='U3'
             row_to_clean = "U3:X"
@@ -145,11 +147,11 @@ def trasferDataToGoogleSheet():
         # # print(market)    
         # if(market == 'Closed' or market == "Close"):
         #     count +=1
-        #     print(f"Market is {count}<--->{market}")
+        #     # print(f"Market is {count}<--->{market}")
         #     return {"Market Status" : f"{market}"}
         # else:
         count +=1
-        print(f"Market is {count}")
+        # print(f"Market is {count}")
         time.sleep(45) # 300 seconds = 5 minutes
     # Sleep for 5 minutes``
         

@@ -35,7 +35,7 @@ def frequency(data, conditionName):
 
 
     today = datetime.datetime.now(pytz.timezone('Asia/Kolkata')).date()
-    print(f"Today's date: {today}")
+    # print(f"Today's date: {today}")
     
     # Get last 5 working days
     last_5_working_days = get_last_n_working_days(FREQUENCY_DAY, today)
@@ -85,12 +85,12 @@ def frequency(data, conditionName):
     # old_data = pd.read_csv(f'result/result_{conditionName}.csv')
     old_data = old_data.drop(columns=['date'])
     new_data_with_date = result_list.drop(columns=['date'])
-    print("----------------old data -----------------")
-    print(old_data)
-    print("----------------new data -----------------")
-    print(new_data_with_date)
+    # print("----------------old data -----------------")
+    # print(old_data)
+    # print("----------------new data -----------------")
+    # print(new_data_with_date)
     comp_result = compare_csv_files(old_data , new_data_with_date)
-    print(f"********* Comparison sorted result --> {comp_result}<--****************")
+    # print(f"********* Comparison sorted result --> {comp_result}<--****************")
     # Save the result to a CSV file
     directory = 'result'
     if comp_result != True:
@@ -98,7 +98,7 @@ def frequency(data, conditionName):
             os.makedirs(directory)
         result.to_csv(f'result/result_{conditionName}.csv', index=False)
         result_list = result.to_dict(orient='records')
-        print(f"New data record result/result_{conditionName}.csv")
+        # print(f"New data record result/result_{conditionName}.csv")
     # print(f"------------------{conditionName}---------------------------")
     # print(result_list)
     return
