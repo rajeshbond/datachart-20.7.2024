@@ -9,7 +9,7 @@ from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker
 from .comp import compare_csv_files
 
-FREQUENCY_DAY = 4 # 5 days FREQUENCY 
+FREQUENCY_DAY = 30 # 5 days FREQUENCY 
 
 def get_last_n_working_days(n, start_date):
     # Convert start_date from string to datetime
