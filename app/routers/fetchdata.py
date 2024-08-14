@@ -18,7 +18,7 @@ router = APIRouter(
 def fetchdata(condition: schemas.DataFetch):
     try:
         # print(condition.conditionName)
-        file_name = f"result/result_{condition.conditionName}.csv"
+        file_name = f"result1/result_{condition.conditionName}.csv"
         # print(file_name)
         status = market_status()
         # if(status == 'Closed' or status == "Close"):

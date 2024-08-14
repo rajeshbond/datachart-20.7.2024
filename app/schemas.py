@@ -20,6 +20,8 @@ class DataFetchout(BaseModel):
     sector:str
     count : int
     frequency : int
+    Piotrski : int
+    
 
 class frequencyFetchIn(BaseModel):
     tableName: str

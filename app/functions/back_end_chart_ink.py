@@ -35,8 +35,8 @@ def scandata(condition, conditionName):
                 data = responseData_scan1.json()
                 stock = data['data']
                 stock_list = pd.DataFrame(stock)
-                # print(f"-------------------{conditionName}----------------------------")
-                # print(stock_list)
+                print(f"-------------------{conditionName}----------------------------")
+                print(stock_list)
                 if stock_list.empty:
                     time.sleep(2)
                     df_empty = pd.DataFrame(columns=['nsecode', 'per_chg', 'close','date','igroup_name'])
@@ -97,7 +97,8 @@ def chartinkLogicBankend(condition, conditionName, db_name):
             ("OverBroughtData", "Champions Over Brought"): models.OverBroughtData,
             ("PositionalData", "Champions Positional"): models.PositionalData,
             ("ReversalData", "Champions Reversal Stocks"): models.ReversalData,
-            ("SwingData", "Champions Swing"): models.SwingData
+            ("SwingData", "Champions Swing"): models.SwingData,
+            ("Condition6", "Champions Condition 6"): models.Condition6
         }
 
         model_class = model_mapping.get((db_name, conditionName))

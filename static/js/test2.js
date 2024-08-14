@@ -1,4 +1,5 @@
 const baseurl = 'http://127.0.0.1:8000/';
+// const baseurl = 'http://192.168.1.6:8005/';
 const dymanicurl = 'fetchdata/api/fetchdata';
 const url = baseurl + dymanicurl;
 console.log(url);
@@ -17,7 +18,7 @@ async function fetchData(conditionName) {
       throw new Error('Failed to fetch data');
     }
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     console.error(error);
@@ -26,15 +27,16 @@ async function fetchData(conditionName) {
 
 function generateStockTable(data, tableId, modelName, tableName) {
   const tableContainer = document.getElementById(tableId);
+  // console.log(tableContainer);
   tableContainer.innerHTML = ''; // Clear existing table content
   const groupedData = {};
   data.forEach(item => {
-    const { sector, nsecode, frequency, close, per_chg, count } = item;
+    const { sector, nsecode, frequency, close, per_chg, Piotrski, count } = item;
     if (sector && nsecode) {
       if (!groupedData[sector]) {
         groupedData[sector] = [];
       }
-      groupedData[sector].push({ nsecode, frequency, close, per_chg, count });
+      groupedData[sector].push({ nsecode, frequency, close, per_chg, Piotrski, count });
     }
   });
 
@@ -60,7 +62,7 @@ function generateStockTable(data, tableId, modelName, tableName) {
 
   const thead = document.createElement('thead');
   const headerRow = document.createElement('tr');
-  const headers = ['SECTOR', 'CLOSE', '% CHANGE', 'COUNT'];
+  const headers = ['NAME', 'LTP', '%CNG', 'Piotroski', 'COUNT'];
   headers.forEach(headerText => {
     const th = document.createElement('th');
     th.textContent = headerText;
@@ -75,7 +77,7 @@ function generateStockTable(data, tableId, modelName, tableName) {
   sectors.forEach(({ sector, companies }) => {
     const sectorRow = document.createElement('tr');
     sectorRow.classList.add('sector-header');
-    
+
     const sectorCell = document.createElement('td');
     const totalCompanies = companies.length;
     sectorCell.colSpan = headers.length;
@@ -89,12 +91,11 @@ function generateStockTable(data, tableId, modelName, tableName) {
     companies.forEach(company => {
       const companyRow = document.createElement('tr');
       companyRow.classList.add('company-row');
-      
-      const companyCells = ['nsecode', 'close', 'per_chg', 'count'];
+
+      const companyCells = ['nsecode', 'close', 'per_chg', 'Piotrski', 'count'];
       companyCells.forEach(cellType => {
         const companyCell = document.createElement('td');
         if (cellType === 'nsecode') {
-          
           const link = document.createElement('a');
           link.href = `https://www.tradingview.com/chart/?symbol=NSE%3A${company[cellType]}`;
           link.textContent = company[cellType];
@@ -116,14 +117,26 @@ function generateStockTable(data, tableId, modelName, tableName) {
           // Set background color based on count value
           if (countValue === 1) {
             companyCell.style.backgroundColor = 'yellow'; // Yellow for count = 1
-            companyCell.style.color = 'black'; // Ensure count value text color is black
           } else if (countValue > 1) {
             companyCell.style.backgroundColor = 'green'; // Green for count > 1
-            companyCell.style.color = 'white'; // Ensure count value text color is black
+            companyCell.style.color = 'white'; // Ensure count value text color is white
           }
           companyCell.classList.add('count-cell');
           companyCell.setAttribute('data-company', JSON.stringify(company));
           companyCell.onclick = () => showPopup(company, tableName, sector, modelName);
+        } else if (cellType === 'Piotrski') {
+          const piotrskiValue = company[cellType];
+          companyCell.textContent = piotrskiValue;
+          if (piotrskiValue >= 7) {
+            companyCell.style.backgroundColor = 'green';
+            companyCell.style.color = 'white';
+          } else if (piotrskiValue >= 4) {
+            companyCell.style.backgroundColor = 'yellow';
+            companyCell.style.color = 'black';
+          } else {
+            companyCell.style.backgroundColor = 'red';
+            companyCell.style.color = 'white';
+          }
         } else {
           companyCell.textContent = company[cellType];
         }
@@ -164,10 +177,10 @@ async function showPopup(company, tableName, sector, modelName) {
   try {
     const response = await getCount(modelName, company.nsecode, company.count);
     const freqData = response.data; // Access the data from the response
-    
+
     // Create a table for the list data
     let listTableHtml = '<table class="table table-bordered popup-table mt-3"><thead><tr>';
-    
+
     // Check if freqData is an array and contains data
     if (Array.isArray(freqData) && freqData.length > 0) {
       const columns = Object.keys(freqData[0]); // Get the columns from the first item
@@ -175,7 +188,7 @@ async function showPopup(company, tableName, sector, modelName) {
         listTableHtml += `<th>${column.toUpperCase()}</th>`;
       });
       listTableHtml += '</tr></thead><tbody>';
-      
+
       freqData.forEach(item => {
         listTableHtml += '<tr>';
         columns.forEach(column => {
@@ -183,7 +196,7 @@ async function showPopup(company, tableName, sector, modelName) {
         });
         listTableHtml += '</tr>';
       });
-      
+
       listTableHtml += '</tbody></table>';
     } else {
       listTableHtml = '<p>No data available.</p>';
@@ -199,7 +212,7 @@ async function showPopup(company, tableName, sector, modelName) {
       <canvas id="close-chart" width="400" height="200"></canvas>
       ${listTableHtml}
     `;
-    
+
     const popup = document.querySelector('.popup');
     popup.style.display = 'block';
     popupOverlay.style.display = 'flex';
@@ -220,7 +233,7 @@ async function showPopup(company, tableName, sector, modelName) {
       return `${day}-${month}`;
     });
     const closeValues = freqData.map(item => item.close);
-    
+
     new Chart(closeChart, {
       type: 'line',
       data: {
@@ -294,6 +307,7 @@ async function init() {
   await fetchDataWithDelay('Champions Positional', 'positional-table', 50, 'PositionalData', 'POSITIONAL');
   await fetchDataWithDelay('Champions Swing', 'swing-table', 50, 'SwingData', 'SWING');
   await fetchDataWithDelay('Champions Reversal Stocks', 'reversal-table', 50, 'ReversalData', 'REVERSAL');
+  await fetchDataWithDelay('Champions Condition 6', 'condition6-table', 50, 'Condition6', 'CONDITION6');
   count++;
   console.log(`------Count: ${count}-----`);
 }

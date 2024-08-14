@@ -8,6 +8,7 @@ from sqlalchemy.sql import select
 from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker
 from .comp import compare_csv_files
+from .addfunda import piotista
 
 FREQUENCY_DAY = 30 # 5 days FREQUENCY 
 
@@ -97,9 +98,12 @@ def frequency(data, conditionName):
         if not os.path.exists(directory):
             os.makedirs(directory)
         result.to_csv(f'result/result_{conditionName}.csv', index=False)
-        result_list = result.to_dict(orient='records')
+        piotista(conditionName)
+        # result_list = result.to_dict(orient='records')
         # print(f"New data record result/result_{conditionName}.csv")
     # print(f"------------------{conditionName}---------------------------")
     # print(result_list)
+
+    
     return
     

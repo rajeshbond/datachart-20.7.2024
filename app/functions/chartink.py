@@ -26,9 +26,9 @@ def trasferDataToGoogleSheet():
         # print(market)
         # updatenseIndex()
         # marketAdvacneDecline()
-        if(market == 'Closed' or market == "Close"):
-            # print(f"Market is {market}")
-            return HTTPException(status_code=status.HTTP_425_TOO_EARLY, detail="Market Closed")
+        # if(market == 'Closed' or market == "Close"):
+        #     # print(f"Market is {market}")
+        #     return HTTPException(status_code=status.HTTP_425_TOO_EARLY, detail="Market Closed")
             
         try:
             title = "Champions Screener"
@@ -109,18 +109,19 @@ def trasferDataToGoogleSheet():
             chartinkLogicBankend(condition=CONDITION5, conditionName=conditionName,db_name=db_name)
         except Exception as e:
             print(e)
-        # Condtion 6    - Stopped by User
-        # try:
-        #     # condition 6
-        #     # conditionName = "MOMENTUM BUY"  - to be change on 20.3.2024
-        #     conditionName = "200 MA SUPPORT DAILY"
-        #     CONDITION6 = {"scan_clause": "( {cash} ( ( {57960} ( ( {57960} ( latest close > latest sma( latest close , 200 ) and latest close >= latest sma( latest vwap , 200 ) and 1 day ago close < latest sma( latest close , 200 ) and 2 days ago close < latest sma( latest close , 200 ) and 3 days ago close < latest sma( latest close , 200 ) and 4 days ago close < latest sma( latest close , 200 ) and latest volume >= 200000 and latest close >= 20 and latest obv >= latest sma( latest obv , 21 ) ) ) or( {57960} ( latest close < latest sma( latest close , 200 ) and 1 day ago close > latest sma( latest close , 200 ) and 2 days ago close > latest sma( latest close , 200 ) and 3 days ago close > latest sma( latest close , 200 ) and 4 days ago close > latest sma( latest close , 200 ) and latest volume >= 200000 and latest close >= 20 and latest obv <= latest sma( latest obv , 21 ) ) ) ) ) ) )"}
-        #     row_to_start ='Z3'
-        #     row_to_clean = "Z3:AC"
-        #     conditionNameLocation = "U4"
-        #     chartinkLogicBankend(condition=CONDITION6,row_to_start=row_to_start,row_to_clean= row_to_clean,sheetname='Hello World',conditionName=conditionName,conditionNameLocation=conditionNameLocation)
-        # except Exception as e:
-        #     print(e)
+        # Condtion 6  
+        try:
+            # condition 6
+            # conditionName = "MOMENTUM BUY"  - to be change on 20.3.2024
+            db_name = "Condition6"
+            conditionName = "Champions Condition 6"
+            CONDITION6 = {"scan_clause": "( {cash} ( ( {cash} ( ( {57960} ( ( {cash} ( latest cci( 20 ) >= 0 and weekly cci( 20 ) >= -150 and latest rsi( 14 ) > 30 and weekly rsi( 14 ) >= 45 and monthly rsi( 14 ) >= 50 and market cap > 250 and latest obv >= [0] 4 hour obv and latest macd line( 13 , 8 , 5 ) >= [0] 4 hour macd line( 13 , 8 , 5 ) and weekly obv >= 1 week ago obv and latest avg true range( 14 ) >= [0] 4 hour avg true range( 14 ) and weekly avg true range( 14 ) >= 1 week ago avg true range( 14 ) and monthly obv >= 1 month ago obv and monthly cci( 20 ) >= 1 month ago cci( 20 ) ) ) ) ) ) ) ) )"}
+            row_to_start ='Z3'
+            row_to_clean = "Z3:AC"
+            conditionNameLocation = "U4"
+            chartinkLogicBankend(condition=CONDITION6, conditionName=conditionName,db_name=db_name)
+        except Exception as e:
+            print(e)
         # Condtion 7    - Stopped by User - to be change on 20.3.2024
         # try:
         #     # condition 
@@ -149,10 +150,10 @@ def trasferDataToGoogleSheet():
         #     count +=1
         #     # print(f"Market is {count}<--->{market}")
         #     return {"Market Status" : f"{market}"}
-        # else:
-        count +=1
-        # print(f"Market is {count}")
-        time.sleep(45) # 300 seconds = 5 minutes
+        else:
+            count +=1
+            print(f"Market is {count}")
+        time.sleep(10) # 300 seconds = 5 minutes
     # Sleep for 5 minutes``
         
     # time.sleep(120) # 300 seconds = 5 minutes

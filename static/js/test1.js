@@ -29,12 +29,12 @@ function generateStockTable(data, tableId, modelName, tableName) {
   tableContainer.innerHTML = ''; // Clear existing table content
   const groupedData = {};
   data.forEach(item => {
-    const { sector, nsecode, frequency, close, per_chg, count } = item;
+    const { sector, nsecode, frequency, close, per_chg,Piotrski,count} = item;
     if (sector && nsecode) {
       if (!groupedData[sector]) {
         groupedData[sector] = [];
       }
-      groupedData[sector].push({ nsecode, frequency, close, per_chg, count });
+      groupedData[sector].push({ nsecode, frequency, close, per_chg, Piotrski,count});
     }
   });
 
@@ -60,7 +60,7 @@ function generateStockTable(data, tableId, modelName, tableName) {
 
   const thead = document.createElement('thead');
   const headerRow = document.createElement('tr');
-  const headers = ['SECTOR', 'CLOSE', '% CHANGE', 'COUNT'];
+  const headers = ['SECTOR','LTP','%CNG','P.No','COUNT'];
   headers.forEach(headerText => {
     const th = document.createElement('th');
     th.textContent = headerText;
@@ -90,7 +90,7 @@ function generateStockTable(data, tableId, modelName, tableName) {
       const companyRow = document.createElement('tr');
       companyRow.classList.add('company-row');
       
-      const companyCells = ['nsecode', 'close', 'per_chg', 'count'];
+      const companyCells = ['nsecode', 'close', 'per_chg','Piotrski','count' ];
       companyCells.forEach(cellType => {
         const companyCell = document.createElement('td');
         if (cellType === 'nsecode') {
