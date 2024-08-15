@@ -1,11 +1,14 @@
 nsecode,per_chg,close,date,igroup_name
-KAYNES,8.81,4677.7,2024-08-13,Consumer Durables
-AJANTPHARM,3.67,3180.0,2024-08-13,Pharmaceuticals
-GLS,-1.73,981.35,2024-08-13,Pharmaceuticals
-NELCO,-0.65,895.05,2024-08-13,Telecomm Equipment & Infra Services
-TRITURBINE,11.53,781.4,2024-08-13,Capital Goods - Electrical Equipment
-JYOTHYLAB,-2.26,548.35,2024-08-13,FMCG
-SUMICHEM,-2.09,525.9,2024-08-13,Agro Chemicals
-GOLDIAM,20.0,241.11,2024-08-13,"Diamond, Gems and Jewellery"
-GPPL,4.0,239.23,2024-08-13,Marine Port & Services
-CONSOFINVT,2.94,205.0,2024-08-13,Finance
+KAYNES,3.55,4868.8,2024-08-14,Consumer Durables
+AJANTPHARM,-4.08,3045.9,2024-08-14,Pharmaceuticals
+E2E,5.0,1962.8,2024-08-14,IT - Software
+DHUNINV,2.77,1529.0,2024-08-14,Finance
+GLS,-0.63,978.8,2024-08-14,Pharmaceuticals
+NELCO,-2.17,876.25,2024-08-14,Telecomm Equipment & Infra Services
+TRITURBINE,1.39,798.0,2024-08-14,Capital Goods - Electrical Equipment
+CMSINFO,-0.27,555.0,2024-08-14,Miscellaneous
+SUMICHEM,1.86,536.4,2024-08-14,Agro Chemicals
+RSSOFTWARE,-5.0,301.0,2024-08-14,IT - Software
+GOLDIAM,-0.29,239.36,2024-08-14,"Diamond, Gems and Jewellery"
+MARKSANS,13.98,214.33,2024-08-14,Pharmaceuticals
+CONSOFINVT,2.09,206.25,2024-08-14,Finance

@@ -1,11 +1,14 @@
 nsecode,per_chg,close,date,sector,count,frequency,Piotrski
-KAYNES,8.81,4677.7,2024-08-13,Consumer Durables,9,1,4
-AJANTPHARM,3.67,3180.0,2024-08-13,Pharmaceuticals,11,2,8
-GLS,-1.73,981.35,2024-08-13,Pharmaceuticals,11,2,6
-NELCO,-0.65,895.05,2024-08-13,Telecomm Equipment & Infra Services,1,1,7
-TRITURBINE,11.53,781.4,2024-08-13,Capital Goods - Electrical Equipment,5,1,9
-JYOTHYLAB,-2.26,548.35,2024-08-13,FMCG,5,1,9
-SUMICHEM,-2.09,525.9,2024-08-13,Agro Chemicals,6,1,6
-GOLDIAM,20.0,241.11,2024-08-13,"Diamond, Gems and Jewellery",8,1,7
-GPPL,4.0,239.23,2024-08-13,Marine Port & Services,2,1,8
-CONSOFINVT,2.94,205.0,2024-08-13,Finance,5,1,5
+KAYNES,3.55,4868.8,2024-08-14,Consumer Durables,10,1,4
+AJANTPHARM,-4.08,3045.9,2024-08-14,Pharmaceuticals,12,3,8
+E2E,5.0,1962.8,2024-08-14,IT - Software,2,2,5
+DHUNINV,2.77,1529.0,2024-08-14,Finance,3,2,6
+GLS,-0.63,978.8,2024-08-14,Pharmaceuticals,12,3,6
+NELCO,-2.17,876.25,2024-08-14,Telecomm Equipment & Infra Services,2,1,7
+TRITURBINE,1.39,798.0,2024-08-14,Capital Goods - Electrical Equipment,6,1,9
+CMSINFO,-0.27,555.0,2024-08-14,Miscellaneous,11,1,5
+SUMICHEM,1.86,536.4,2024-08-14,Agro Chemicals,7,1,6
+RSSOFTWARE,-5.0,301.0,2024-08-14,IT - Software,3,2,8
+GOLDIAM,-0.29,239.36,2024-08-14,"Diamond, Gems and Jewellery",9,1,7
+MARKSANS,13.98,214.33,2024-08-14,Pharmaceuticals,4,3,4
+CONSOFINVT,2.09,206.25,2024-08-14,Finance,6,2,5
