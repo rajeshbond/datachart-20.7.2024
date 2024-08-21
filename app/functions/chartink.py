@@ -123,16 +123,17 @@ def trasferDataToGoogleSheet():
         except Exception as e:
             print(e)
         # Condtion 7    - Stopped by User - to be change on 20.3.2024
-        # try:
-        #     # condition 
-        #     conditionName = "Monthly>60 Weekly>60 Daily 40-45"
-        #     CONDITION7 = {"scan_clause": "( {57960} ( monthly rsi( 14 ) >= 60 and weekly rsi( 14 ) >= 60 and latest rsi( 14 ) >= 40 and latest rsi( 14 ) <= 45 ) )"}
-        #     row_to_start ='AE3'
-        #     row_to_clean = "AE3:AH"
-        #     conditionNameLocation = "Y4"
-        #     chartinkLogicBankend(condition=CONDITION7,row_to_start=row_to_start,row_to_clean= row_to_clean,sheetname='Hello World',conditionName=conditionName,conditionNameLocation=conditionNameLocation)
-        # except Exception as e:
-        #     print(e)
+        try:
+            # condition 
+            db_name = "Stage_2"
+            conditionName = "Stage_2"
+            CONDITION7 = {"scan_clause": "( {cash} ( 1 month ago ema( monthly close , 9 ) < 1 month ago ema( monthly close , 20 ) and monthly ema( monthly close , 9 ) >= monthly ema( monthly close , 20 ) and market cap >= 250 and monthly macd line( 26 , 12 , 9 ) >= 1 month ago macd line( 26 , 12 , 9 ) ) )"}
+            row_to_start ='AE3'
+            row_to_clean = "AE3:AH"
+            conditionNameLocation = "Y4"
+            chartinkLogicBankend(condition=CONDITION7, conditionName=conditionName,db_name=db_name)
+        except Exception as e:
+            print(e)
         # # # Condtion 8    - Stopped by User
         # try:
         #     # condition 8

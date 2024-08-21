@@ -109,6 +109,20 @@ class Condition6(Base):
     igroup_name = Column(String)
     create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
+class Stage_2(Base):
+    __tablename__ = "Stage_2"
+    id = Column(BigInteger, primary_key=True, index=True)
+    nsecode = Column(String,nullable=True)
+    name = Column(String,nullable=False)
+    bsecode = Column(Integer, nullable=True)
+    per_chg = Column(Float, nullable=False)
+    close = Column(Float, nullable=False)
+    volume = Column(BigInteger, nullable = False)
+    date = Column(String,nullable=False)
+    time = Column(String,nullable=False)
+    igroup_name = Column(String)
+    create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+
 class TestData(Base):
     __tablename__ = "TestData"
     id = Column(BigInteger, primary_key=True, index=True)

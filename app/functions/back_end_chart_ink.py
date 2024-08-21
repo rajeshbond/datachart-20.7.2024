@@ -98,7 +98,8 @@ def chartinkLogicBankend(condition, conditionName, db_name):
             ("PositionalData", "Champions Positional"): models.PositionalData,
             ("ReversalData", "Champions Reversal Stocks"): models.ReversalData,
             ("SwingData", "Champions Swing"): models.SwingData,
-            ("Condition6", "Champions Condition 6"): models.Condition6
+            ("Condition6", "Champions Condition 6"): models.Condition6,
+            ("Stage_2", "Stage_2"): models.Stage_2,
         }
 
         model_class = model_mapping.get((db_name, conditionName))
@@ -106,6 +107,7 @@ def chartinkLogicBankend(condition, conditionName, db_name):
         if not model_class:
             # print(f"No model mapping found for {db_name} and {conditionName}")
             return
+        # print(f"model_class ---> {model_class}")
 
         scandataFunc_df = scandata(condition, conditionName)
 

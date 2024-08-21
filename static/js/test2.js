@@ -1,5 +1,5 @@
 const baseurl = 'http://127.0.0.1:8000/';
-// const baseurl = 'http://192.168.1.6:8005/';
+// const baseurl = 'http://192.168.1.5:8005/';
 const dymanicurl = 'fetchdata/api/fetchdata';
 const url = baseurl + dymanicurl;
 console.log(url);
@@ -308,9 +308,11 @@ async function init() {
   await fetchDataWithDelay('Champions Swing', 'swing-table', 50, 'SwingData', 'SWING');
   await fetchDataWithDelay('Champions Reversal Stocks', 'reversal-table', 50, 'ReversalData', 'REVERSAL');
   await fetchDataWithDelay('Champions Condition 6', 'condition6-table', 50, 'Condition6', 'CONDITION6');
+  await fetchDataWithDelay('Stage_2', 'stage_2-table', 50, 'Stage_2', 'STAGE_2');
   count++;
   console.log(`------Count: ${count}-----`);
 }
 
 init();
 setInterval(init, 20000); // Refresh every 20 seconds
+

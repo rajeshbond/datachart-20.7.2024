@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 def restorebackupfun():
   # db_name = ['IntradayData', 'OverBroughtData', 'PositionalData', 'ReversalData', 'SwingData']
-  db_name = ['TestData']
+  db_name = ['Stage_2']
   try:
     print("restorebackupfun")
     for name in db_name:
@@ -21,11 +21,14 @@ def doRestore(db_name):
     try:
         db = next(get_db())
         model_mapping = {
-            "IntradayData": models.IntradayData,
-            "OverBroughtData": models.OverBroughtData,
-            "PositionalData": models.PositionalData,
-            "ReversalData": models.ReversalData,
-            "SwingData": models.SwingData
+            # "IntradayData": models.IntradayData,
+            # "OverBroughtData": models.OverBroughtData,
+            # "PositionalData": models.PositionalData,
+            # "ReversalData": models.ReversalData,
+            # "SwingData": models.SwingData,
+            # "Condition6": models.Condition6,
+            # "Stage_2": models.Stage_2
+
         }
 
         # Get the appropriate model class
