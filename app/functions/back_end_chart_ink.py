@@ -35,8 +35,8 @@ def scandata(condition, conditionName):
                 data = responseData_scan1.json()
                 stock = data['data']
                 stock_list = pd.DataFrame(stock)
-                print(f"-------------------{conditionName}----------------------------")
-                print(stock_list)
+                # print(f"-------------------{conditionName}----------------------------")
+                # print(stock_list)
                 if stock_list.empty:
                     time.sleep(2)
                     df_empty = pd.DataFrame(columns=['nsecode', 'per_chg', 'close','date','igroup_name'])
@@ -128,19 +128,20 @@ def chartinkLogicBankend(condition, conditionName, db_name):
             new_data = newScandataFunc[~newScandataFunc['nsecode'].isin(existing_data.loc[existing_data['date'] == today, 'nsecode'])]
 
             if new_data.empty:
-                # print(f"No new data found for {conditionName}")
+                print(f"No new data found for {conditionName}")
                 return
             else:
-                # print(f"New data found for {conditionName}, adding to database {db_name}...")
+                print(f"New data found for {conditionName}, adding to database {db_name}...")
                 new_entries = new_data.to_dict(orient='records')
                 try:
+                   
                     db.bulk_insert_mappings(model_class, new_entries)
                     db.commit()
                 except Exception as e:
                     print(f"{conditionName} ---> error {e}")
         else:
-            # print(f"{db_name} {conditionName} data not found in database")
-            # print(f"Entering the {conditionName} to database {db_name}...")
+            print(f"{db_name} {conditionName} data not found in database")
+            print(f"Entering the {conditionName} to database {db_name}...")
             data_to_insert = newScandataFunc.to_dict(orient='records')
             try:
                 db.bulk_insert_mappings(model_class, data_to_insert)
