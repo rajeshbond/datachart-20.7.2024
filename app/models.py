@@ -122,6 +122,78 @@ class Stage_2(Base):
     time = Column(String,nullable=False)
     igroup_name = Column(String)
     create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+# Achivers Data base decleration
+class AdvanceData(Base):
+    __tablename__ = "AdvanceData"
+    id = Column(BigInteger, primary_key=True, index=True)
+    nsecode = Column(String,nullable=True)
+    name = Column(String,nullable=False)
+    bsecode = Column(Integer, nullable=True)
+    per_chg = Column(Float, nullable=False)
+    close = Column(Float, nullable=False)
+    volume = Column(BigInteger, nullable = False)
+    date = Column(String,nullable=False)
+    time = Column(String,nullable=False)
+    igroup_name = Column(String)
+    create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+
+class BullishCrossOverData(Base):
+    __tablename__ = "BullishCrossOverData"
+    id = Column(BigInteger, primary_key=True, index=True)
+    nsecode = Column(String,nullable=True)
+    name = Column(String,nullable=False)
+    bsecode = Column(Integer, nullable=True)
+    per_chg = Column(Float, nullable=False)
+    close = Column(Float, nullable=False)
+    volume = Column(BigInteger, nullable = False)
+    date = Column(String,nullable=False)
+    time = Column(String,nullable=False)
+    igroup_name = Column(String)
+    create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+
+class ReversalStockData(Base):
+    __tablename__ = "ReversalStockData"
+    id = Column(BigInteger, primary_key=True, index=True)
+    nsecode = Column(String,nullable=True)
+    name = Column(String,nullable=False)
+    bsecode = Column(Integer, nullable=True)
+    per_chg = Column(Float, nullable=False)
+    close = Column(Float, nullable=False)
+    volume = Column(BigInteger, nullable = False)
+    date = Column(String,nullable=False)
+    time = Column(String,nullable=False)
+    igroup_name = Column(String)
+    create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+
+class ActiveByVolumeData(Base):
+    __tablename__ = "ActiveByVolumeData"
+    id = Column(BigInteger, primary_key=True, index=True)
+    nsecode = Column(String,nullable=True)
+    name = Column(String,nullable=False)
+    bsecode = Column(Integer, nullable=True)
+    per_chg = Column(Float, nullable=False)
+    close = Column(Float, nullable=False)
+    volume = Column(BigInteger, nullable = False)
+    date = Column(String,nullable=False)
+    time = Column(String,nullable=False)
+    igroup_name = Column(String)
+    create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+
+class RangeBreakoutData(Base):
+    __tablename__ = "RangeBreakoutData"
+    id = Column(BigInteger, primary_key=True, index=True)
+    nsecode = Column(String,nullable=True)
+    name = Column(String,nullable=False)
+    bsecode = Column(Integer, nullable=True)
+    per_chg = Column(Float, nullable=False)
+    close = Column(Float, nullable=False)
+    volume = Column(BigInteger, nullable = False)
+    date = Column(String,nullable=False)
+    time = Column(String,nullable=False)
+    igroup_name = Column(String)
+    create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+
+
 
 class TestData(Base):
     __tablename__ = "TestData"
@@ -136,6 +208,10 @@ class TestData(Base):
     time = Column(String,nullable=False)
     igroup_name = Column(String)
     create_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+
+
+
+# Absolute table only for testing purpose
 
 # class DaySymbol(Base):
 #     __tablename__ = "DaySymbol"

@@ -28,6 +28,7 @@ async function fetchData(conditionName) {
 function generateStockTable(data, tableId, modelName, tableName) {
   const tableContainer = document.getElementById(tableId);
   // console.log(tableContainer);
+  console.log(tableName);
   tableContainer.innerHTML = ''; // Clear existing table content
   const groupedData = {};
   data.forEach(item => {
@@ -303,12 +304,18 @@ async function fetchDataWithDelay(conditionName, tableId, delay, modelName, tabl
 
 async function init() {
   await fetchDataWithDelay('Champions Intraday', 'intraday-table', 50, 'IntradayData', 'INTRADAY');
+  await fetchDataWithDelay('Advance', 'advance-table', 50, 'AdvanceData', 'ADVANCE');
   await fetchDataWithDelay('Champions Over Brought', 'overbrought-table', 50, 'OverBroughtData', 'OVERBOUGHT');
   await fetchDataWithDelay('Champions Positional', 'positional-table', 50, 'PositionalData', 'POSITIONAL');
   await fetchDataWithDelay('Champions Swing', 'swing-table', 50, 'SwingData', 'SWING');
   await fetchDataWithDelay('Champions Reversal Stocks', 'reversal-table', 50, 'ReversalData', 'REVERSAL');
   await fetchDataWithDelay('Champions Condition 6', 'condition6-table', 50, 'Condition6', 'CONDITION6');
   await fetchDataWithDelay('Stage_2', 'stage_2-table', 50, 'Stage_2', 'STAGE_2');
+  // for achivers board data
+  await fetchDataWithDelay('Advance', 'advance-table', 50, 'AdvanceData', 'ADVANCE');
+  // await fetchDataWithDelay('Bullish CrossOver', 'bullishcrossover-table', 50, 'BullishCrossOverData', 'BULLISHCROSSOVER');
+ 
+
   count++;
   console.log(`------Count: ${count}-----`);
 }

@@ -100,6 +100,12 @@ def chartinkLogicBankend(condition, conditionName, db_name):
             ("SwingData", "Champions Swing"): models.SwingData,
             ("Condition6", "Champions Condition 6"): models.Condition6,
             ("Stage_2", "Stage_2"): models.Stage_2,
+            ("AdvanceData", "Advance"): models.AdvanceData,
+            ("BullishCrossOverData", "Bullish CrossOver"): models.BullishCrossOverData,
+            ("ReversalStockData", "Reversal Stock"): models.ReversalStockData,
+            ("ActiveByVolumeData", "ActiveBy Volume"): models.ActiveByVolumeData,
+            ("RangeBreakoutData", "Range Breakout"): models.RangeBreakoutData,
+            
         }
 
         model_class = model_mapping.get((db_name, conditionName))
