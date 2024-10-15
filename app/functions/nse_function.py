@@ -7,7 +7,6 @@ def market_status_1():
     data = fetch_nse_data(api_url)
     data = data.get('marketState')
     data = data[0]['marketStatus']
-    print(data)
     return data
 
 

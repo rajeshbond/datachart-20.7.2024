@@ -21,13 +21,8 @@ def trasferDataToGoogleSheet():
     while flag:
         test = 0
         market = market_status_1()
-        # print(market)
-        # updatenseIndex()
-        # marketAdvacneDecline()
-        # if(market == 'Closed' or market == "Close"):
-        #     flag = False
-        #     print(f"Market is {market}")
-        #     return HTTPException(status_code=status.HTTP_425_TOO_EARLY, detail="Market Closed")
+        print(f"Maket status <--------> {market}")
+    
             
         try:
             title = "Champions Screener"
@@ -160,7 +155,8 @@ def trasferDataToGoogleSheet():
         if(market == 'Closed' or market == "Close"):
             # print(f"Market is {count}<--->{market}")
             flag = False
-            return {"Market Status" : f"{market}"}
+            print(f"---{flag}----------{market}------------")
+            break
         else:
             count +=1
             print(f"Market is {count}")
