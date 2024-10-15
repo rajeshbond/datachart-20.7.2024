@@ -1,6 +1,8 @@
 import time
-from .back_end_chart_ink import chartinkLogicBankend
 
+from fastapi import HTTPException,status
+from .back_end_chart_ink import chartinkLogicBankend
+from .nse_function import market_status_1
 from .nse_data import market_status
 
 
@@ -15,15 +17,16 @@ def trasferDataToGoogleSheet():
     # print("started")
     count = 0
     test = 1
-    
-    while True:
+    flag = True
+    while flag:
         test = 0
-        market = market_status()
+        market = market_status_1()
         # print(market)
         # updatenseIndex()
         # marketAdvacneDecline()
         # if(market == 'Closed' or market == "Close"):
-        #     # print(f"Market is {market}")
+        #     flag = False
+        #     print(f"Market is {market}")
         #     return HTTPException(status_code=status.HTTP_425_TOO_EARLY, detail="Market Closed")
             
         try:
@@ -154,10 +157,10 @@ def trasferDataToGoogleSheet():
         except Exception as e:
             print(e)
         # # print(market)    
-        # if(market == 'Closed' or market == "Close"):
-        #     count +=1
-        #     # print(f"Market is {count}<--->{market}")
-        #     return {"Market Status" : f"{market}"}
+        if(market == 'Closed' or market == "Close"):
+            # print(f"Market is {count}<--->{market}")
+            flag = False
+            return {"Market Status" : f"{market}"}
         else:
             count +=1
             print(f"Market is {count}")
