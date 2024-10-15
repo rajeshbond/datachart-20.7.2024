@@ -20,7 +20,7 @@ def fetchdata(condition: schemas.DataFetch):
         # print(condition.conditionName)
         file_name = f"result1/result_{condition.conditionName}.csv"
         # print(file_name)
-        status = market_status()
+        # status = market_status()
         # if(status == 'Closed' or status == "Close"):
         #     return {"message": "Market Closed"}
         data = pd.read_csv(file_name)
