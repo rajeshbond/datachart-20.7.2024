@@ -102,7 +102,7 @@ def trasferDataToGoogleSheet():
             db_name = "Stage_2"
             conditionName = "Stage_2"
             # CONDITION7 = {"scan_clause": "( {cash} ( 1 month ago ema( monthly close , 9 ) < 1 month ago ema( monthly close , 20 ) and monthly ema( monthly close , 9 ) >= monthly ema( monthly close , 20 ) and market cap >= 250 and monthly macd line( 26 , 12 , 9 ) >= 1 month ago macd line( 26 , 12 , 9 ) ) )"}
-            CONDITION7 = {"scan_clause": "( {cash} ( ( {cash} ( ttm sales > 1 year ago net sales and monthly obv > 1 month ago obv and weekly obv > 1 week ago obv and monthly macd line( 26 , 12 , 9 ) > 1 month ago macd line( 26 , 12 , 9 ) and ttm eps > prev year eps and yearly return on capital employed percentage > 15 and market cap >= 1000 and yearly debt equity ratio <= 1 and monthly macd line( 26 , 12 , 9 ) > monthly macd signal( 26 , 12 , 9 ) and weekly macd line( 26 , 12 , 9 ) > weekly macd signal( 26 , 12 , 9 ) and weekly adx( 14 ) > 30 ) ) ) )"}
+            CONDITION7 = {"scan_clause": "( {cash} ( ( {cash} ( ttm sales > 1 year ago net sales and monthly obv > 1 month ago obv and weekly obv > 1 week ago obv and monthly macd line( 26 , 12 , 9 ) > 1 month ago macd line( 26 , 12 , 9 ) and ttm eps > prev year eps and yearly return on capital employed percentage > 15 and market cap >= 1000 and yearly debt equity ratio <= 1 and monthly macd line( 26 , 12 , 9 ) > monthly macd signal( 26 , 12 , 9 ) and weekly macd line( 26 , 12 , 9 ) > weekly macd signal( 26 , 12 , 9 ) ) ) ) )"}
             chartinkLogicBankend(condition=CONDITION7, conditionName=conditionName,db_name=db_name)
         except Exception as e:
             print(e)
