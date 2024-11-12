@@ -105,6 +105,8 @@ def chartinkLogicBankend(condition, conditionName, db_name):
             ("ReversalStockData", "Reversal Stock"): models.ReversalStockData,
             ("ActiveByVolumeData", "ActiveBy Volume"): models.ActiveByVolumeData,
             ("RangeBreakoutData", "Range Breakout"): models.RangeBreakoutData,
+            ("SixMonthBreakoutData", "Six Month Breakout"): models.SixMonthBreakoutData,
+            
             
         }
 

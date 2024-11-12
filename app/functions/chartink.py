@@ -152,6 +152,15 @@ def trasferDataToGoogleSheet():
             chartinkLogicBankend(condition=CONDITION12, conditionName=conditionName,db_name=db_name)
         except Exception as e:
             print(e)
+        # Condtion 13   
+        try:
+            # condition 
+            db_name = "SixMonthBreakoutData"
+            conditionName = "Six Month Breakout"
+            CONDITION13 = {"scan_clause": "( {cash} ( monthly close > 2 quarter ago high and ttm sales >= sales turnover[yearly] and weekly obv > 1 week ago obv and weekly cci( 20 ) > 1 week ago cci( 20 ) and market cap >= 1000 and ttm net profit > net profit[yearly] and ttm operating profit > operating profit margin[yr] and ttm eps > prev year eps and yearly debt equity ratio <= 1 ) )" }
+            chartinkLogicBankend(condition=CONDITION13, conditionName=conditionName,db_name=db_name)
+        except Exception as e:
+            print(e)
         # # print(market)    
         if(market == 'Closed' or market == "Close"):
             # print(f"Market is {count}<--->{market}")
