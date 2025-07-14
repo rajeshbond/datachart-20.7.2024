@@ -30,15 +30,17 @@ def frequency(data, conditionName):
     data['date'] = pd.to_datetime(data['date'], format="%Y-%m-%d")
 
     today = datetime.datetime.now(pytz.timezone('Asia/Kolkata')).date()
-
+    print(f"=================={today} - {conditionName}=================")
     # ✔ Decide working day range based on condition
-    if conditionName == 'OverBroughtData':
+    if conditionName == 'Champions Over Brought':
         frequency_days = 4
     else:
         frequency_days = 70
 
     # Get last N working days (excluding today), and include today separately
     last_n_working_days = get_last_n_working_days(frequency_days, today)
+    # if conditionName == 'OverBroughtData':
+    #     print(f"============={last_n_working_days}  - {conditionName}================")
     last_n_working_days_str = [day.strftime('%d-%m-%Y') for day in last_n_working_days]
     last_n_working_days_str.append(today.strftime('%d-%m-%Y'))  # Include today
 
