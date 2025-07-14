@@ -30,7 +30,7 @@ def frequency(data, conditionName):
     data['date'] = pd.to_datetime(data['date'], format="%Y-%m-%d")
 
     today = datetime.datetime.now(pytz.timezone('Asia/Kolkata')).date()
-    print(f"=================={today} - {conditionName}=================")
+    # print(f"=================={today} - {conditionName}=================")
     # ✔ Decide working day range based on condition
     if conditionName == 'Champions Over Brought':
         frequency_days = 4

@@ -52,8 +52,8 @@ def scandata(condition, conditionName):
                 current_time = now.strftime('%H:%M:%S')
                 stock_list['time'] = str(current_time)
                 stock_list['nsecode'] = stock_list['nsecode'].fillna('NA')
-                stock_list['bsecode'] = stock_list['bsecode'].fillna(0) # as old code
-                # stock_list['bsecode'] = stock_list['bsecode'].fillna(0).astype(int)
+                stock_list['bsecode'] = stock_list['bsecode'].fillna(0) 
+                # stock_list['bsecode'] = stock_list['bsecode'].fillna('0').astype(str)
                 datafile = pd.merge(stock_list,  symbol_df[["nsecode", 'igroup_name']], on="nsecode", how='left')
                 datafile['igroup_name'] = datafile['igroup_name'].fillna('Others')
                 # print(datafile)
