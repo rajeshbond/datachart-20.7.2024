@@ -140,7 +140,7 @@ def chartinkLogicBankend(condition, conditionName, db_name):
                 print(f"No new data found for {conditionName}")
                 return
             else:
-                print(f"New data found for {conditionName}, adding to database {db_name}...")
+                # print(f"New data found for {conditionName}, adding to database {db_name}...")
                 new_entries = new_data.to_dict(orient='records')
                 try:
                    
@@ -149,8 +149,8 @@ def chartinkLogicBankend(condition, conditionName, db_name):
                 except Exception as e:
                     print(f"{conditionName} ---> error {e}")
         else:
-            print(f"{db_name} {conditionName} data not found in database")
-            print(f"Entering the {conditionName} to database {db_name}...")
+            # print(f"{db_name} {conditionName} data not found in database")
+            # print(f"Entering the {conditionName} to database {db_name}...")
             data_to_insert = newScandataFunc.to_dict(orient='records')
             try:
                 db.bulk_insert_mappings(model_class, data_to_insert)
